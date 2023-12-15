@@ -4,20 +4,25 @@ At the command line, only need to run once to install the package via pip:
 $ pip install google-generativeai
 """
 
+import google.generativeai as genai
+import dotenv
 import os
-from google.colab import userdata
 
-os.environ['API_KEY'] = userdata.get('API_KEY')
+dotenv.load_dotenv()
+GOOGLE_API_KEY=os.getenv('GOOGLE_API_KEY')
+genai.configure(api_key=GOOGLE_API_KEY)
+"""
+At the command line, only need to run once to install the package via pip:
+
+$ pip install google-generativeai
+"""
 
 # Set up the model
 generation_config = {
-  "temperature": 0.4,
+  "temperature": 1,
   "top_p": 1,
-  "top_k": 5,
+  "top_k": 1,
   "max_output_tokens": 2048,
-  "stop_sequences": [
-    "3:",
-  ],
 }
 
 safety_settings = [
@@ -46,55 +51,11 @@ model = genai.GenerativeModel(model_name="gemini-pro",
 convo = model.start_chat(history=[
   {
     "role": "user",
-    "parts": "você é um gerador de produtos fictícios, gere cinco produtos"
+    "parts": "gere uma lista com 5 produtos ficticios"
   },
   {
     "role": "model",
-    "parts": "1. **Óculos de Realidade Virtual com Inteligência Artificial**\n\nEsses óculos combinam a tecnologia de realidade virtual com inteligência artificial para criar uma experiência imersiva e personalizada. Eles podem se adaptar às preferências do usuário, oferecendo conteúdo relevante e experiências personalizadas.\n\n2. **Roupa Inteligente com Monitoramento de Saúde**\n\nEssas roupas incorporam sensores avançados que monitoram os sinais vitais do usuário, como frequência cardíaca, pressão arterial e temperatura corporal. Eles podem fornecer alertas em tempo real sobre problemas de saúde e enviar dados para o médico do usuário para análise.\n\n3. **Geladeira Inteligente com Reconhecimento de Alimentos**\n\nEssa geladeira usa câmeras e inteligência artificial para reconhecer os alimentos armazenados e rastrear suas datas de validade. Ela pode enviar notificações quando os alimentos estão prestes a estragar e sugerir receitas com base nos ingredientes disponíveis.\n\n4. **Carro Autônomo com Aprendizado de Máquina**\n\nEsses carros usam uma combinação de sensores, câmeras e inteligência artificial para navegar pelas ruas sem a intervenção humana. Eles podem aprender com a experiência, melhorando suas habilidades de direção com o tempo.\n\n5. **Assistente Pessoal Virtual com Personalidade Única**\n\nEsses assistentes pessoais virtuais possuem personalidades únicas e podem se adaptar às preferências do usuário. Eles podem fornecer informações, executar tarefas e até mesmo conversar com o usuário de forma natural."
-  },
-  {
-    "role": "user",
-    "parts": "você é um gerador de produtos fictícios, gere cinco produtos. e você deve gerar apenas o nome dos produtos que o usuario solicitar"
-  },
-  {
-    "role": "model",
-    "parts": "1. **Cama Inteligente com Monitoramento do Sono** - **SonoSereno**\n2. **Espelho Inteligente com Realidade Aumentada** - **Espelho Mágico**\n3. **Roupa Inteligente com Controle de Temperatura** - **ClimaVest**\n4. **Drone de Entrega Autônomo** - **EntregaExpress**\n5. **Impressora 3D de Alimentos** - **FoodPrinter**"
-  },
-  {
-    "role": "user",
-    "parts": "quero mais 4 produtos"
-  },
-  {
-    "role": "model",
-    "parts": "1. **Óculos de Realidade Aumentada para Educação** - **EduAR**\n2. **Robô de Limpeza Autônomo com Inteligência Artificial** - **Robô LimpaTudo**\n3. **Tradutor Universal em Tempo Real** - **Tradutor Global**\n4. **Dispositivo de Teletransporte Virtual** - **TeleTrans**"
-  },
-  {
-    "role": "user",
-    "parts": "<div>"
-  },
-  {
-    "role": "user",
-    "parts": "<br>"
-  },
-  {
-    "role": "user",
-    "parts": "</div>"
-  },
-  {
-    "role": "user",
-    "parts": "<div>"
-  },
-  {
-    "role": "user",
-    "parts": "<br>"
-  },
-  {
-    "role": "user",
-    "parts": "</div>"
-  },
-  {
-    "role": "model",
-    "parts": "1. **Gerador de Energia Limpa a partir do Ar** - **ArLimpoPower**\n2. **Máquina de Reciclagem Doméstica** - **ReciclaTudo**\n3. **Roupa Inteligente com Proteção Solar** - **SolarShield**\n4. **Implante Cerebral para Melhoria da Memória** - **MemóriaMax**"
+    "parts": "1. **Drink da Felicidade:** Uma bebida refrescante que instantaneamente faz você se sentir feliz e otimista. É feito com uma mistura de frutas tropicais e ingredientes naturais que melhoram o humor.\n\n\n2. **Comida de Memória:** Uma refeição deliciosa que permite que você reviva suas memórias favoritas. É feito com ingredientes que despertam os sentidos e trazem à tona lembranças vivas e emocionantes.\n\n\n3. **Robô de Amizade:** Um robô inteligente e empático que se torna seu melhor amigo. Ele pode conversar, contar piadas, jogar jogos e oferecer suporte emocional.\n\n\n4. **Traje de Invisibilidade:** Uma roupa especial que o torna invisível para os outros. É feito com materiais avançados que dobram a luz ao seu redor, tornando-o praticamente indetectável.\n\n\n5. **Máquina do Tempo:** Um dispositivo incrível que permite que você viaje no tempo. É feito com tecnologia de ponta que permite que você visite o passado ou o futuro, explorando diferentes épocas e eventos."
   }
 ])
 
